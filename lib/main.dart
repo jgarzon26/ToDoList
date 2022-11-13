@@ -17,7 +17,11 @@ class _HomeState extends State<Home> {
   TextEditingController? addItemController;
 
   var itemID = 0;
+<<<<<<< HEAD
   var listOfItems = {};
+=======
+  DoItem listOfItems = {} as DoItem;
+>>>>>>> AddingLogic
 
   @override
   Widget build(BuildContext context){
@@ -51,6 +55,7 @@ class _HomeState extends State<Home> {
   }
 
   void AddItemOverlay(){
+<<<<<<< HEAD
     final overlay = Overlay.of(context)!;
     entry = OverlayEntry(
         builder: (context) {
@@ -92,6 +97,41 @@ class _HomeState extends State<Home> {
         }
     );
     overlay.insert(entry!);
+=======
+    entry = OverlayEntry(
+        builder: (context) {
+          return Column(
+            children: [
+              Text(
+                "Something To Do...",
+              ),
+              TextField(
+                controller: addItemController,
+                decoration: InputDecoration(
+                  hintText: "Type here",
+                ),
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: null,
+                      child: Text(
+                        "INSERT",
+                      ),
+                  ),
+                  ElevatedButton(
+                      onPressed: null,
+                      child: Text(
+                        "CANCEL",
+                      ),
+                  ),
+                ],
+              )
+            ],
+          );
+        }
+    );
+>>>>>>> AddingLogic
   }
 }
 
