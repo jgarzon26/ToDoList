@@ -13,8 +13,11 @@ class Home extends StatefulWidget{
 }
 
 class _HomeState extends State<Home> {
+  OverlayEntry? entry;
+  TextEditingController? addItemController;
+
   var itemID = 0;
-  var listOfItems = {};
+  DoItem listOfItems = {} as DoItem;
 
   @override
   Widget build(BuildContext context){
@@ -44,6 +47,42 @@ class _HomeState extends State<Home> {
           ),
         ),
       )
+    );
+  }
+
+  void AddItemOverlay(){
+    entry = OverlayEntry(
+        builder: (context) {
+          return Column(
+            children: [
+              Text(
+                "Something To Do...",
+              ),
+              TextField(
+                controller: addItemController,
+                decoration: InputDecoration(
+                  hintText: "Type here",
+                ),
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: null,
+                      child: Text(
+                        "INSERT",
+                      ),
+                  ),
+                  ElevatedButton(
+                      onPressed: null,
+                      child: Text(
+                        "CANCEL",
+                      ),
+                  ),
+                ],
+              )
+            ],
+          );
+        }
     );
   }
 }
