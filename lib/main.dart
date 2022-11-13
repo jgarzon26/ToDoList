@@ -13,6 +13,9 @@ class Home extends StatefulWidget{
 }
 
 class _HomeState extends State<Home> {
+  OverlayEntry? entry;
+  TextEditingController? addItemController;
+
   var itemID = 0;
   var listOfItems = {};
 
@@ -37,7 +40,7 @@ class _HomeState extends State<Home> {
             ],
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: null,
+            onPressed: AddItemOverlay,
             child: Icon(
               Icons.add,
             ),
@@ -45,6 +48,50 @@ class _HomeState extends State<Home> {
         ),
       )
     );
+  }
+
+  void AddItemOverlay(){
+    final overlay = Overlay.of(context)!;
+    entry = OverlayEntry(
+        builder: (context) {
+          return FractionallySizedBox(
+            widthFactor: 0.8,
+            heightFactor: 0.2,
+            child: Scaffold(
+              body: Column(
+                children: [
+                  Text(
+                    "Something To Do...",
+                  ),
+                  TextField(
+                    controller: addItemController,
+                    decoration: InputDecoration(
+                      hintText: "Type here",
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: null,
+                          child: Text(
+                            "INSERT",
+                          ),
+                      ),
+                      ElevatedButton(
+                          onPressed: null,
+                          child: Text(
+                            "CANCEL",
+                          ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+    );
+    overlay.insert(entry!);
   }
 }
 
