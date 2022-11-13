@@ -13,7 +13,8 @@ class Home extends StatefulWidget{
 }
 
 class _HomeState extends State<Home> {
-
+  var itemID = 0;
+  var listOfItems = {};
 
   @override
   Widget build(BuildContext context){
@@ -43,6 +44,38 @@ class _HomeState extends State<Home> {
           ),
         ),
       )
+    );
+  }
+}
+
+class DoItem extends StatelessWidget{
+
+  String item;
+
+  DoItem(String this.item);
+
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      child: Row(
+        children: [
+          IconButton(
+              onPressed: null,
+              icon: Icon(
+                Icons.radio_button_unchecked,
+              )
+          ),
+          Text(
+            item,
+          ),
+          IconButton(
+              onPressed: null,
+              icon: Icon(
+                Icons.edit,
+              )
+          ),
+        ],
+      ),
     );
   }
 }
