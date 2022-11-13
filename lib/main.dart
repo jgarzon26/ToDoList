@@ -10,16 +10,17 @@ class Home extends StatefulWidget{
 
   @override
   State<Home> createState() => _HomeState();
+
 }
 
 class _HomeState extends State<Home> {
   OverlayEntry? entry;
   bool hasDisplayOverlay = false;
 
-  TextEditingController? addItemController;
+  final addItemController = TextEditingController();
 
   var itemID = 0;
-  var listOfItems = {};
+  List<DoItem> listOfItems = [];
 
   @override
   Widget build(BuildContext context){
@@ -37,10 +38,11 @@ class _HomeState extends State<Home> {
             ],
           ),
           body: ListView(
-            children: [
-
-            ],
-
+            children: listOfItems.map(
+                (item) =>
+                  Container(
+                    child: item,
+                  )).toList(),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => !hasDisplayOverlay ? addItemOverlay() : hideItemOverlay(),
@@ -76,13 +78,24 @@ class _HomeState extends State<Home> {
                   Row(
                     children: [
                       ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            var itemText = addItemController.text;
+                            var doItemBuild = DoItem(itemText);
+                            addItemController.clear();
+                            setState(() {
+                              listOfItems.add(doItemBuild);
+                            });
+                            hideItemOverlay();
+                          },
                           child: Text(
                             "INSERT",
                           ),
                       ),
                       ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            addItemController.clear();
+                            hideItemOverlay();
+                          },
                           child: Text(
                             "CANCEL",
                           ),
@@ -107,32 +120,30 @@ class _HomeState extends State<Home> {
 
 class DoItem extends StatelessWidget{
 
-  String item;
+  final String item;
 
-  DoItem(String this.item);
+  const DoItem(this.item);
 
   @override
   Widget build(BuildContext context){
-    return Container(
-      child: Row(
-        children: [
-          IconButton(
-              onPressed: null,
-              icon: Icon(
-                Icons.radio_button_unchecked,
-              )
-          ),
-          Text(
-            item,
-          ),
-          IconButton(
-              onPressed: null,
-              icon: Icon(
-                Icons.edit,
-              )
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        IconButton(
+            onPressed: null,
+            icon: Icon(
+              Icons.radio_button_unchecked,
+            )
+        ),
+        Text(
+          item,
+        ),
+        IconButton(
+            onPressed: null,
+            icon: Icon(
+              Icons.edit,
+            )
+        ),
+      ],
     );
   }
 }
