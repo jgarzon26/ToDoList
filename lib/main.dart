@@ -118,12 +118,17 @@ class _HomeState extends State<Home> {
   }
 }
 
-class DoItem extends StatelessWidget{
+class DoItem extends StatefulWidget{
 
-  final String item;
+  String item;
 
-  const DoItem(this.item);
+  DoItem(this.item);
 
+  @override
+  State<DoItem> createState() => _DoItemState();
+}
+
+class _DoItemState extends State<DoItem> {
   @override
   Widget build(BuildContext context){
     return Row(
@@ -135,7 +140,7 @@ class DoItem extends StatelessWidget{
             )
         ),
         Text(
-          item,
+          widget.item,
         ),
         IconButton(
             onPressed: null,
