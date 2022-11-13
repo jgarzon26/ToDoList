@@ -14,6 +14,8 @@ class Home extends StatefulWidget{
 
 class _HomeState extends State<Home> {
   OverlayEntry? entry;
+  bool hasDisplayOverlay = false;
+
   TextEditingController? addItemController;
 
   var itemID = 0;
@@ -38,9 +40,10 @@ class _HomeState extends State<Home> {
             children: [
 
             ],
+
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: AddItemOverlay,
+            onPressed: () => !hasDisplayOverlay ? addItemOverlay() : hideItemOverlay(),
             child: Icon(
               Icons.add,
             ),
@@ -50,8 +53,9 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void AddItemOverlay(){
+  void addItemOverlay(){
     final overlay = Overlay.of(context)!;
+    hasDisplayOverlay = true;
     entry = OverlayEntry(
         builder: (context) {
           return FractionallySizedBox(
@@ -92,6 +96,12 @@ class _HomeState extends State<Home> {
         }
     );
     overlay.insert(entry!);
+  }
+
+  void hideItemOverlay(){
+    hasDisplayOverlay = false;
+    entry?.remove();
+    entry = null;
   }
 }
 
