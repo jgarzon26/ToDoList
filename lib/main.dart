@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 main() => runApp(
   MaterialApp(
@@ -32,7 +33,11 @@ class _HomeState extends State<Home> {
             title: Text("To Do List"),
             actions: [
               IconButton(
-                  onPressed: null,
+                  onPressed: () {
+                    setState(() {
+                      listOfItems = [];
+                    });
+                  },
                   icon: Icon(
                     Icons.delete,
                   )
@@ -177,7 +182,11 @@ class _DoItemState extends State<DoItem> {
     return Row(
       children: [
         IconButton(
-            onPressed: null,
+            onPressed: () {
+              setState(() {
+                widget.checkButton = Icons.radio_button_checked;
+              });
+            },
             icon: Icon(
               widget.checkButton,
             )
