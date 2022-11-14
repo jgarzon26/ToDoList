@@ -30,7 +30,14 @@ class _HomeState extends State<Home> {
     return(MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: Text("To Do List"),
+            backgroundColor: Color.fromRGBO(2, 79, 169, 100),
+            title: Text(
+                "To Do List",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+              ),
+            ),
             actions: [
               IconButton(
                   onPressed: () {
@@ -40,6 +47,7 @@ class _HomeState extends State<Home> {
                   },
                   icon: Icon(
                     Icons.delete,
+                    size: 32,
                   )
               ),
             ],
@@ -81,48 +89,87 @@ class _HomeState extends State<Home> {
     entry = OverlayEntry(
         builder: (context) {
           return FractionallySizedBox(
+            alignment: const Alignment(0, 0.7),
             widthFactor: 0.8,
-            heightFactor: 0.2,
+            heightFactor: 0.25,
             child: Scaffold(
-              body: Column(
-                children: [
-                  Text(
-                    "Something To Do...",
-                  ),
-                  TextField(
-                    controller: addItemController,
-                    decoration: InputDecoration(
-                      hintText: "Type here",
+              body: Container(
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(78, 129, 232, 100),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text(
+                        "Something To Do...",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            var itemText = addItemController.text;
-                            var doItemBuild = DoItem(itemText, updateList);
-                            addItemController.clear();
-                            setState(() {
-                              listOfItems.add(doItemBuild);
-                            });
-                            hideItemOverlay();
-                          },
-                          child: Text(
-                            "INSERT",
-                          ),
+                    TextField(
+                      controller: addItemController,
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Type here",
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            addItemController.clear();
-                            hideItemOverlay();
-                          },
-                          child: Text(
-                            "CANCEL",
-                          ),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  var itemText = addItemController.text;
+                                  var doItemBuild = DoItem(itemText, updateList);
+                                  addItemController.clear();
+                                  setState(() {
+                                    listOfItems.add(doItemBuild);
+                                  });
+                                  hideItemOverlay();
+                                },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(Colors.green),
+                              ),
+                                child: const Text(
+                                  "INSERT",
+                                ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  addItemController.clear();
+                                  hideItemOverlay();
+                                },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(Colors.red),
+                              ),
+                                child: Text(
+                                  "CANCEL",
+                                ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );
