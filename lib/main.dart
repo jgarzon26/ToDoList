@@ -55,8 +55,20 @@ class _HomeState extends State<Home> {
           body: ListView(
             children: listOfItems.map(
                 (item) =>
-                  Container(
-                    child: item,
+                  FractionallySizedBox(
+                    alignment: Alignment.topCenter,
+                    widthFactor: 0.9,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(78, 129, 232, 100),
+                          borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        child: item,
+                      ),
+                    ),
                   )).toList(),
           ),
           floatingActionButton: FloatingActionButton(
@@ -207,11 +219,22 @@ class DoItem extends StatefulWidget{
     id = _idCounter++;
     itemTextField = Text(
       item,
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 24,
+      ),
     );
     editItemField = TextField(
+      autofocus: true,
       controller: editController,
       decoration: const InputDecoration(
         hintText: "Edit your item",
+      ),
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 24,
       ),
     );
 
@@ -228,15 +251,20 @@ class _DoItemState extends State<DoItem> {
   Widget build(BuildContext context){
     return Row(
       children: [
-        IconButton(
-            onPressed: () {
-              setState(() {
-                widget.checkButton = Icons.radio_button_checked;
-              });
-            },
-            icon: Icon(
-              widget.checkButton,
-            )
+        Expanded(
+          flex: 1,
+          child: IconButton(
+              onPressed: () {
+                setState(() {
+                  widget.checkButton = Icons.radio_button_checked;
+                });
+              },
+              icon: Icon(
+                widget.checkButton,
+                size: MediaQuery.of(context).size.width * 0.07,
+                color: Colors.white,
+              )
+          ),
         ),
         Expanded(
           flex: 3,
@@ -244,30 +272,35 @@ class _DoItemState extends State<DoItem> {
             child: widget.textField,
           ),
         ),
-        IconButton(
-            onPressed: () {
-              if(!widget.isEditMode){
-                setState(() {
-                  widget.editController.text = widget.item;
-                  widget.textField = widget.editItemField;
-                  widget.editButton = Icons.check;
-                });
-                widget.isEditMode = true;
-              }
-              else{
-                setState(() {
-                  widget.item = widget.editController.text;
-                  widget.updateList(widget.id, widget.item);
-                  widget.editController.clear();
-                  widget.editButton = Icons.edit;
-                  widget.textField = widget.itemTextField;
-                });
-                widget.isEditMode = false;
-              }
-            },
-            icon: Icon(
-              widget.editButton,
-            )
+        Expanded(
+          flex: 1,
+          child: IconButton(
+              onPressed: () {
+                if(!widget.isEditMode){
+                  setState(() {
+                    widget.editController.text = widget.item;
+                    widget.textField = widget.editItemField;
+                    widget.editButton = Icons.check;
+                  });
+                  widget.isEditMode = true;
+                }
+                else{
+                  setState(() {
+                    widget.item = widget.editController.text;
+                    widget.updateList(widget.id, widget.item);
+                    widget.editController.clear();
+                    widget.editButton = Icons.edit;
+                    widget.textField = widget.itemTextField;
+                  });
+                  widget.isEditMode = false;
+                }
+              },
+              icon: Icon(
+                widget.editButton,
+                size: MediaQuery.of(context).size.width * 0.07,
+                color: Colors.white,
+              )
+          ),
         ),
       ],
     );
