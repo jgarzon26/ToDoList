@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 main() => runApp(
@@ -55,6 +57,19 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void updateList(int currentId, String newItem){
+    for(int i = 0; i < listOfItems.length; i++){
+      if(listOfItems[i].id == currentId){
+        log("$i");
+        setState(() {
+          listOfItems[i].item = newItem;
+          log(listOfItems[i].item);
+        });
+        break;
+      }
+    }
+  }
+
   void addItemOverlay(){
     final overlay = Overlay.of(context)!;
     hasDisplayOverlay = true;
@@ -80,7 +95,7 @@ class _HomeState extends State<Home> {
                       ElevatedButton(
                           onPressed: () {
                             var itemText = addItemController.text;
-                            var doItemBuild = DoItem(itemText);
+                            var doItemBuild = DoItem(itemText, updateList);
                             addItemController.clear();
                             setState(() {
                               listOfItems.add(doItemBuild);
@@ -121,14 +136,42 @@ class _HomeState extends State<Home> {
 class DoItem extends StatefulWidget{
 
   String item;
+  static var _idCounter = 0;
+  late final int id;
+  late final void Function(int, String) updateList;
 
-  DoItem(this.item);
+  var editButton = Icons.edit;
+  bool isEditMode = false;
+  var checkButton = Icons.radio_button_unchecked;
+
+  final editController = TextEditingController();
+
+  dynamic textField;
+
+  late final Text itemTextField;
+  late final TextField editItemField;
+
+  DoItem(this.item, this.updateList){
+    id = _idCounter++;
+    itemTextField = Text(
+      item,
+    );
+    editItemField = TextField(
+      controller: editController,
+      decoration: const InputDecoration(
+        hintText: "Edit your item",
+      ),
+    );
+
+    textField = itemTextField;
+  }
 
   @override
   State<DoItem> createState() => _DoItemState();
 }
 
 class _DoItemState extends State<DoItem> {
+
   @override
   Widget build(BuildContext context){
     return Row(
@@ -136,16 +179,38 @@ class _DoItemState extends State<DoItem> {
         IconButton(
             onPressed: null,
             icon: Icon(
-              Icons.radio_button_unchecked,
+              widget.checkButton,
             )
         ),
-        Text(
-          widget.item,
+        Expanded(
+          flex: 3,
+          child: Container(
+            child: widget.textField,
+          ),
         ),
         IconButton(
-            onPressed: null,
+            onPressed: () {
+              if(!widget.isEditMode){
+                setState(() {
+                  widget.editController.text = widget.item;
+                  widget.textField = widget.editItemField;
+                  widget.editButton = Icons.check;
+                });
+                widget.isEditMode = true;
+              }
+              else{
+                setState(() {
+                  widget.item = widget.editController.text;
+                  widget.updateList(widget.id, widget.item);
+                  widget.editController.clear();
+                  widget.editButton = Icons.edit;
+                  widget.textField = widget.itemTextField;
+                });
+                widget.isEditMode = false;
+              }
+            },
             icon: Icon(
-              Icons.edit,
+              widget.editButton,
             )
         ),
       ],
