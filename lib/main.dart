@@ -83,16 +83,21 @@ class _HomeState extends State<Home> {
   }
 
   void updateList(int currentId, String newItem){
-    for(int i = 0; i < listOfItems.length; i++){
-      if(listOfItems[i].id == currentId){
-        log("$i");
-        setState(() {
-          listOfItems[i].item = newItem;
-          log(listOfItems[i].item);
-        });
-        break;
-      }
-    }
+    final newitem = listOfItems.firstWhere((element) => element.id == currentId);
+    var item = DoItem(newItem, updateList, removeItem);
+    final index = listOfItems.indexOf(newitem);
+
+    listOfItems.removeAt(index);
+
+    setState(() {
+      listOfItems.insert(index, item);
+    });
+  }
+
+  void removeItem(int currentId){
+    setState(() {
+      listOfItems.removeWhere((element) => element.id == currentId);
+    });
   }
 
   void addItemOverlay(){
@@ -146,7 +151,7 @@ class _HomeState extends State<Home> {
                             child: ElevatedButton(
                                 onPressed: () {
                                   var itemText = addItemController.text;
-                                  var doItemBuild = DoItem(itemText, updateList);
+                                  var doItemBuild = DoItem(itemText, updateList, removeItem);
                                   addItemController.clear();
                                   setState(() {
                                     listOfItems.add(doItemBuild);
@@ -204,6 +209,7 @@ class DoItem extends StatefulWidget{
   static var _idCounter = 0;
   late final int id;
   late final void Function(int, String) updateList;
+  late final void Function(int) removeItem;
 
   var editButton = Icons.edit;
   bool isEditMode = false;
@@ -216,7 +222,7 @@ class DoItem extends StatefulWidget{
   late final Text itemTextField;
   late final TextField editItemField;
 
-  DoItem(this.item, this.updateList){
+  DoItem(this.item, this.updateList, this.removeItem){
     id = _idCounter++;
     itemTextField = Text(
       item,
@@ -258,6 +264,7 @@ class _DoItemState extends State<DoItem> {
               onPressed: () {
                 setState(() {
                   widget.checkButton = Icons.radio_button_checked;
+                  widget.removeItem(widget.id);
                 });
               },
               icon: Icon(
