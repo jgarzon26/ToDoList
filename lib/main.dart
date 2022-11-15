@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: addItemController.text.isNotEmpty ? () {
                                   var itemText = addItemController.text;
                                   var doItemBuild = DoItem(itemText, updateList, removeItem);
                                   addItemController.clear();
@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
                                     listOfItems.add(doItemBuild);
                                   });
                                   hideItemOverlay();
-                                },
+                                } : null,
                               style: ButtonStyle(
                                 backgroundColor: MaterialStatePropertyAll(Colors.green),
                               ),
