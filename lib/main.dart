@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
                         child: item,
                       ),
                     ),
-                  )).toList(),
+                  )).toList(growable: true),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => !hasDisplayOverlay ? addItemOverlay() : hideItemOverlay(),
@@ -101,10 +101,11 @@ class _HomeState extends State<Home> {
     entry = OverlayEntry(
         builder: (context) {
           return FractionallySizedBox(
-            alignment: const Alignment(0, 0.7),
+            alignment: Alignment.center,
             widthFactor: 0.8,
             heightFactor: 0.25,
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               body: Container(
                 decoration: const BoxDecoration(
                     color: Color.fromRGBO(78, 129, 232, 100),
