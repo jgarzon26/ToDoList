@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context){
     return(MaterialApp(
         home: Scaffold(
+          backgroundColor: const Color.fromRGBO(15, 76, 148, 100),
           appBar: AppBar(
             backgroundColor: const Color.fromRGBO(2, 79, 169, 100),
             title: const Text(
@@ -113,7 +114,6 @@ class _HomeState extends State<Home> {
               body: Container(
                 decoration: const BoxDecoration(
                     color: Color.fromRGBO(78, 129, 232, 100),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 padding: const EdgeInsets.all(20),
                 child: Column(
