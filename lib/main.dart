@@ -1,15 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 main() => runApp(
-  MaterialApp(
+  const MaterialApp(
     home: Home(),
   )
 );
 
 class Home extends StatefulWidget{
+  const Home({super.key});
+
 
   @override
   State<Home> createState() => _HomeState();
@@ -30,8 +29,8 @@ class _HomeState extends State<Home> {
     return(MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(2, 79, 169, 100),
-            title: Text(
+            backgroundColor: const Color.fromRGBO(2, 79, 169, 100),
+            title: const Text(
                 "To Do List",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -45,7 +44,7 @@ class _HomeState extends State<Home> {
                       listOfItems = [];
                     });
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.delete,
                     size: 32,
                   )
@@ -73,7 +72,7 @@ class _HomeState extends State<Home> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => !hasDisplayOverlay ? addItemOverlay() : hideItemOverlay(),
-            child: Icon(
+            child: const Icon(
               Icons.add,
             ),
           ),
@@ -83,14 +82,14 @@ class _HomeState extends State<Home> {
   }
 
   void updateList(int currentId, String newItem){
-    final newitem = listOfItems.firstWhere((element) => element.id == currentId);
-    var item = DoItem(newItem, updateList, removeItem);
-    final index = listOfItems.indexOf(newitem);
+    final oldItem = listOfItems.firstWhere((element) => element.id == currentId);
+    var newitem = DoItem(newItem, updateList, removeItem);
+    final index = listOfItems.indexOf(oldItem);
 
     listOfItems.removeAt(index);
 
     setState(() {
-      listOfItems.insert(index, item);
+      listOfItems.insert(index, newitem);
     });
   }
 
@@ -116,7 +115,7 @@ class _HomeState extends State<Home> {
                     color: Color.fromRGBO(78, 129, 232, 100),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -158,7 +157,7 @@ class _HomeState extends State<Home> {
                                   });
                                   hideItemOverlay();
                                 } : null,
-                              style: ButtonStyle(
+                              style: const ButtonStyle(
                                 backgroundColor: MaterialStatePropertyAll(Colors.green),
                               ),
                                 child: const Text(
@@ -175,10 +174,10 @@ class _HomeState extends State<Home> {
                                   addItemController.clear();
                                   hideItemOverlay();
                                 },
-                              style: ButtonStyle(
+                              style: const ButtonStyle(
                                 backgroundColor: MaterialStatePropertyAll(Colors.red),
                               ),
-                                child: Text(
+                                child: const Text(
                                   "CANCEL",
                                 ),
                             ),
@@ -222,11 +221,11 @@ class DoItem extends StatefulWidget{
   late final Text itemTextField;
   late final TextField editItemField;
 
-  DoItem(this.item, this.updateList, this.removeItem){
+  DoItem(this.item, this.updateList, this.removeItem, {super.key}){
     id = _idCounter++;
     itemTextField = Text(
       item,
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 24,
@@ -238,7 +237,7 @@ class DoItem extends StatefulWidget{
       decoration: const InputDecoration(
         hintText: "Edit your item",
       ),
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: 24,
